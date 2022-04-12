@@ -21,6 +21,9 @@
     <script>
         const number = Number(prompt('몇 명이 참가하나요?'))
         const yesOrNo = confirm(number + '명 맞나요?')
+        if(yesOrNo === false){
+            window.location.reload()
+        }
         const $button = document.querySelector('button')
         const $input = document.querySelector('input')
         const $word = document.querySelector('#word')
