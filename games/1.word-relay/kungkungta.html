@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>쿵쿵따</title>
+
+</head>
+
+<body>
+    <div><span id="order">1</span>번쨰 참가자</div>
+    <div>제시어 : <span id="word"></span> 쿵쿵따</div>
+    <input type="text">
+    <button id="btn">등록</button>
+
+    <script>
+        const number = parseInt(prompt("몇명이 참가하나요?"));
+        // ☆☆ window.location.reload() 말고 다른 방법  ☆☆
+        // prompt 함수에서 취소를 누르면 값이 null이 나오고 => 그 값이 parseInt함수에 들어가면 NaN 값이 된다.
+        //    => if문에서는 NaN을 false로 취급하기 떄문에 ,number가 null 이면 if문 내부는 실행되지 않는다.
+        if (number) {
+
+            const $order = document.querySelector('#order');
+            const $word = document.querySelector('#word');
+            const $input = document.querySelector('input');
+            const $button = document.querySelector('#btn');
+
+            let word;
+            let newWord;
+
+            const onClickButton = () => {
+                if (!word || word[word.length - 1] === newWord[0] && newWord.length === 3) {     // ☆☆ 기존 끝말잇기에서 글자길이가 3을 만족하여야함 ☆☆
+                    word = newWord;                    
+                    $word.textContent = word
+                    const order = Number($order.textContent) 
+                    if (order + 1 > number) {                          
+                        $order.textContent = 1
+                    } else {                                                
+                        $order.textContent = order + 1
+                    }
+                } else {                                 
+                    alert('올바르지 않은 단어입니다.')
+                }
+            }
+            $input.value = ''
+            $input.focus()
+
+            const onInput = (event) => {
+                newWord = event.target.value
+            }
+
+            
+            $button.addEventListener('click', onClickButton)
+            $input.addEventListener('input', onInput)
+
+        }
+
+    </script>
+</body>
+
+</html>
