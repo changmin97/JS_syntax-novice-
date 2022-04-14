@@ -18,7 +18,7 @@
     <script>
         const number = parseInt(prompt("몇명이 참가하나요?"));
         const trueOrFalse = confirm(number + '명이 맞나요?');
-        if(trueOrFalse === false) {
+        if (trueOrFalse === false) {
             window.location.reload();
         }
         const $order = document.querySelector('#order');
@@ -30,7 +30,7 @@
         let newWord;
 
         const onClickButton = () => {
-            if (!word) {                                                         //제시어가 비어있는가?
+            if (!word || word[word.length - 1] === newWord[0]) {                                                         //제시어가 비어있는가?
                 word = newWord;                                                         //제시어가 비어있을떄
                 $word.textContent = word
                 const order = Number($order.textContent) //☆☆ order.textContent는 문자열로 나옴/ 숫자열 + 1 계산해야하므로 Number 이용 ☆☆
@@ -39,29 +39,17 @@
                 } else {                                                                    //현재순서 + 1 이 number보다 작다면? => 다음순서는 order + 1 이 된다.
                     $order.textContent = order + 1
                 }
-                $input.value = ''
-                $input.focus()
-            } else {                                                                     //제시어가 비어있지 않을때 - 입력한 단어가 올바른가??
-                if (word[word.length - 1] === newWord[0]) {                                                         //입력한 단어가 올바를때
-                    word = newWord; 
-                    $word.textContent = word
-                    const order = Number($order.textContent)
-                    if (order + 1 > number) {
-                        $order.textContent = 1
-                    } else {
-                        $order.textContent = order + 1
-                    }
-                } else {                                                                                            //입력한 단어가 올바르지않을때
-                    alert('올바르지 않은 단어입니다.')
+            }else {                                                                                            //입력한 단어가 올바르지않을때
+                alert('올바르지 않은 단어입니다.')
                 }
             }
-            $input.value = ''
-            $input.focus()
-        }
+        $input.value = ''
+        $input.focus()
+        
         const onInput = (event) => {
             newWord = event.target.value
         }
-        
+
         // ☆☆ addEventListener 다는건  선언식보다 아래 있어야 작동함. 위에서 아래로 작동하기 떄문에 선언부터 되어야함 ☆☆
         $button.addEventListener('click', onClickButton)
         $input.addEventListener('input', onInput)
