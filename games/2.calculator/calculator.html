@@ -1,17 +1,41 @@
 <!DOCTYPE html>
+
 <head>
   <meta charset="utf-8">
   <title>계산기</title>
   <style>
-    * { box-sizing: border-box }
-    #result { width: 180px; height: 50px; margin: 5px; text-align: right }
-    #operator { width: 50px; height: 50px; margin: 5px; text-align: center }
-    button { width: 50px; height: 50px; margin: 5px }
+    /* 박스 사이즈를 content box(172 x 44)가 아닌 border box(180 x 50)사이즈로 정해둔거 */
+    * {
+      box-sizing: border-box
+    }
+
+    #result {
+      width: 180px;
+      height: 50px;
+      margin: 5px;
+      text-align: right
+    }
+
+    /*글자는 right 배치 */
+    #operator {
+      width: 50px;
+      height: 50px;
+      margin: 5px;
+      text-align: center
+    }
+
+    button {
+      width: 50px;
+      height: 50px;
+      margin: 5px
+    }
   </style>
 </head>
 
 <!--계산기버튼구현-->
+
 <body>
+  <!-- readonly는 글자 쓸수없고 자바스크립트(버튼클릭)로만 입력가능 -->
   <input readonly id="operator">
   <input readonly type="number" id="result">
   <div class="row">
@@ -38,7 +62,80 @@
     <button id="calculate">=</button>
     <button id="multiply">x</button>
   </div>
-<script>
+  <script>
 
-</script>
+    let numOne = '';
+    let operator = '';
+    let numTwo = '';
+    const $operator = document.querySelector('#operator');
+    const $result = document.querySelector('#result');
+    const onClickNumber = (event) => {   // return { } 생략함 , 이걸 고차함수(high order function) 라고 함
+      if (!operator) {
+        numOne += event.target.textContent;
+        $result.value += event.target.textContent;
+        return;
+      }
+      if (!numTwo) {
+        $result.value = '';
+      }
+      numTwo += event.target.textContent;
+      $result.value += event.target.textContent;
+    }
+
+
+    const onClickOperator = (op) => {
+      return () => {
+        if (numOne) {
+          operator = op;
+          $operator.value = op;
+        } else {
+          alert('숫자를 먼저 입력하세요.');
+        }
+      }
+    }
+    document.querySelector('#num-0').addEventListener('click', onClickNumber);
+    document.querySelector('#num-1').addEventListener('click', onClickNumber);
+    document.querySelector('#num-2').addEventListener('click', onClickNumber);
+    document.querySelector('#num-3').addEventListener('click', onClickNumber);
+    document.querySelector('#num-4').addEventListener('click', onClickNumber);
+    document.querySelector('#num-5').addEventListener('click', onClickNumber);
+    document.querySelector('#num-6').addEventListener('click', onClickNumber);
+    document.querySelector('#num-7').addEventListener('click', onClickNumber);
+    document.querySelector('#num-8').addEventListener('click', onClickNumber);
+    document.querySelector('#num-9').addEventListener('click', onClickNumber);
+    document.querySelector('#plus').addEventListener('click', onClickOperator('+'));
+    document.querySelector('#minus').addEventListener('click', onClickOperator('-'));
+    document.querySelector('#divide').addEventListener('click', onClickOperator('/'));
+    document.querySelector('#multiply').addEventListener('click', onClickOperator('*'));
+    document.querySelector('#calculate').addEventListener('click', () => {
+      if (numTwo) {
+        switch (operator) {
+          case '+':
+            $result.value = parseInt(numOne) + parseInt(numTwo); //numbOne 과 numTwo는 문자열이여서 그대로더하면 '3'+'4' = '34'가 나옴
+            break;
+          case '-':
+            $result.value = parseInt(numOne) - parseInt(numTwo);
+            break;
+          case '*':
+            $result.value = parseInt(numOne) * parseInt(numTwo);
+            break;
+          case '/':
+            $result.value = parseInt(numOne) / parseInt(numTwo);
+            break;
+          default:
+            break;
+        }
+      } else {
+        alert('숫자를 먼저 입력하세요.');
+      }
+    });
+    document.querySelector('#clear').addEventListener('click', () => {
+      numOne = '';
+      operator = '';
+      numTwo = '';
+      $operator.value = '';
+      $result.value = '';
+    });
+
+  </script>
 </body>
