@@ -15,19 +15,19 @@
         const $input = document.querySelector('#input');
         const $form = document.querySelector('#form');
         const $logs = document.querySelector('#logs');
-        const numbers = [];  // [1,2,3,4,5,6,7,8,9]
-        for (let n = 0; n < 9; n++) {
-            numbers.push(n + 1);
+        const numbers = []   // 1,2,3,4,5,6,7,8,9   index는 0~8까지 이다
+        for (let n = 1; n < 10; n++) {
+            numbers.push(n)
         }
-        const answer = []
-        for (let n = 0; n <= 3; n++) { //네 번 반복
-            const index = Math.floor(Math.random() * (numbers.length - n)) //0~8 정수 , 9 - n 보다 numbers.lenght가 더 나음 , 하나씩 줄어져야함
-            answer.push(numbers[index])   //뽑은거 넣어주고
-            numbers.splice(index, 1)  //뽑은거 뺴고
+        const answer = [] //3,1,4,6 랜덤으로 뽑기
+        for (let n = 0; n <= 3; n++) {
+            const index = Math.floor(Math.random() * (9 - n)) // indx는 0~8까지이므로 *9 만
+            answer.push(numbers[index])  //뽑은거 answer박스에 넣기
+            numbers.splice(index, 1)
         }
         console.log(answer)
 
-        const tries = []
+        const tries = [] // [1234,5678,1236,1278,1259, ...]
         function checkInput(input) { //검사하는 함수
             if (input.length !== 4) { // 길이는 4가 아닌가
                 return alert('4자리 숫자를 입력해 주세요.');
@@ -45,20 +45,19 @@
             event.preventDefault();
             const value = $input.value;
             $input.value = '';
-            const valid = checkInput(value);
+            const valid = checkInput(value); 
             if (!valid) return;
             if (answer.join('') === value) {
                 $logs.textContent = '홈런!';
-                return;
+                return; // return 쓰는 이유가 return 함수 특성중 함수 끝내기 위해서 
             }
-            if (tries.length >= 9) {
+            if (tries.length >= 9) {   //10번쨰 제출하는 순간 tries.length 는 9 가 된다.  
                 $logs.append(`패배! 정답은 ${answer.join('')}`)
-                return;
+                return // return 쓰는 이유가 return 함수 특성중 함수 끝내기 위해서 
             }
             // 몇 스트라이크 몇 볼인지 검사
             let strike = 0;
             let ball = 0;
-            //answer :3146   value : 1234
             for (let i = 0; i < answer.length; i++) {
                 const index = value.indexOf(answer[i]);
                 if (index > -1) { // 일치하는 숫자 발견
@@ -69,9 +68,9 @@
                     }
                 }
             }
-            $logs.append(`${value}: ${strike} 스트라이크 ${ball} 볼`, document.createElement('br'));
+            $logs.append(`${value}:  ${strike}스트라이크 ${ball}볼`, document.createElement('br'));
             tries.push(value);
-        });
+        })
     </script>
 </body>
 
