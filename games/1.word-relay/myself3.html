@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>word relay </title>
+</head>
+
+<body>
+    <div><span id="order">1</span>번째 참가자</div>
+    <div>제시어: <span id="word"></span></div>
+    <input type="text">
+    <button>입력</button>
+    <script>
+        const number = Number(prompt('몇명이 참여 하나요?'))
+        
+        if (number) {
+            const $button = document.querySelector('button')
+            const $input = document.querySelector('input')
+            const $word = document.querySelector('#word')
+            const $order = document.querySelector('#order')
+            let word; //제시어
+            let newWord //새로 입력한 단어
+
+            const onClickButton = () => {
+                if (!word) {
+                    word = newWord
+                    $word.textContent = word
+                    const order = Number($order.textContent)
+                    if (order + 1 > number) {
+                        $order.textContent = 1
+                    } else {
+                        $order.textContent = order + 1
+                    }
+                    $input.value = ''
+                    $input.focus()
+                } else {
+                    if (word[word.length - 1] === newWord[0]) { //입력한 단어가 올바른가
+                        word = newWord
+                        $word.textContent = word
+                        const order = Number($order.textContent)    //line 26에는 추가했는데 여기에는 추가 안해서 오류걸렸엇음
+                        if (order + 1 > number) {
+                            $order.textContent = 1
+                        } else {
+                            $order.textContent = order + 1
+                        }
+                        $input.value = ''
+                        $input.focus()
+                    } else {  //입력한 단어가 올바르지 않은가
+                        alert('올바르지 않은 단어입니다.')
+                        $input.value = ''
+                        $input.focus()
+                    }
+                }
+            }
+            const onInput = (event) => {
+                newWord = event.target.value
+            }
+
+            $input.addEventListener('input', onInput)
+            $button.addEventListener('click', onClickButton)
+        }
+    </script>
+</body>
+
+</html>
