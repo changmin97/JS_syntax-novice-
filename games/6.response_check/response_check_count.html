@@ -30,9 +30,18 @@
 <body>
     <div id="screen" class="waiting">클릭해서 시작하세요</div>
     <div id="result"></div>
+    <div>시도 횟수 : <span id="try">0</span></div>
     <script>
         const $screen = document.querySelector('#screen');
         const $result = document.querySelector('#result');
+        const $try = document.querySelector('#try') ////////countUp 추가
+
+        const countUp = () => {         ////////countUp 추가
+            number = Number($try.textContent)
+            number += 1
+            $try.textContent = number
+        }
+
         let startTime; // 여기다 선언해야 함수 끝나도 안사라짐
         let endTime;
         const records = []
@@ -48,7 +57,7 @@
                     $screen.textContent = '클릭하세요';
                     //1.여기서부터 시간재기
                     startTime = new Date();
-                }, Math.floor((Math.random() * 3000)+1000))
+                }, Math.floor((Math.random() * 3000) + 1000))
             } else if (event.target.classList.contains('ready')) {
                 clearTimeout(timeoutID)
                 $screen.classList.remove('ready')
@@ -63,12 +72,13 @@
                 const average = records.reduce((a, c) => a + c) / records.length; // reduce()에 초기값 안넣으면 첫번쨰값이 초기값이다
                 $result.textContent = `현재 ${current}ms, 평균: ${average}ms`;
                 //참고로 JS는 시간을 1970년대부터시간잼
+                countUp()                           ////////countUp 추가
                 $screen.classList.remove('now');
                 $screen.classList.add('waiting');
                 $screen.textContent = '클릭해서 시작하세요';
             }
         })
-
+        
     </script>
 </body>
 
