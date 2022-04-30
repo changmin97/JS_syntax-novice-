@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>tic tac toe</title>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+
+        td {
+            /* 테이블들의 칸이 td */
+            border: 1px solid black;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        const { body } = document
+
+        const $table = document.createElement('table') //document 지워짐(구조 분해 할당땜에)
+        const $result = document.createElement('div')  //document 지워짐(구조 분해 할당땜에)
+        const rows = []
+        let turn = 'O'
+
+        const callBack = (event) => {
+            //칸에 글자가 있나?
+            if (event.target.textContent !== '') {
+                console.log('빈 칸이 아닙니다')
+                return
+            }
+            console.log('빈칸입니다')
+            event.target.textContent = turn
+
+            if (turn === 'O') {
+                turn = 'X'
+            } else if (turn === 'X') {
+                turn = 'O'
+            }
+        }
+
+
+        for (let i = 0; i < 3; i++) {
+            const $tr = document.createElement('tr')  //document 지워짐(구조 분해 할당땜에)
+            const cells = []
+            for (let j = 0; j < 3; j++) {
+                const $td = document.createElement('td') //document 지워짐(구조 분해 할당땜에)
+                cells.push($td)
+                $td.addEventListener('click', callBack)
+                $tr.append($td)
+            }
+            rows.push(cells)
+            $table.append($tr)
+        }
+        body.append($table) //document 지워짐(구조 분해 할당땜에)
+        body.append($result) //document 지워짐(구조 분해 할당땜에)
+    </script>
+</body>
+
+</html>
